@@ -27,7 +27,7 @@
                     <div class="card card-outline card-info">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Summernote
+                                Thêm sản phẩm
                             </h3>
                         </div>
                         <!-- /.card-header -->
@@ -37,43 +37,65 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label class="form-label">Code</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="code" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Tên sản phẩm</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" name="name" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Danh mục</label>
-                                    <select name="" class="form-control"></select>
+                                    <select name="category_id" class="form-control">
+                                        @foreach ($categories as $cate)
+                                            <option value="{{ $cate->id }}">
+                                                {{ $cate->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Thương hiệu</label>
-                                    <select name="" class="form-control">
-                                        <option value="">Selected</option>
+                                    <select name="brand_id" class="form-control">
+                                        @foreach ($brands as $brand)
+                                            <option value="{{ $brand->id }}">
+                                                {{ $brand->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Hình</label>
-                                    <input class="form-control" type="file" id="formFile">
+                                    <input class="form-control" type="file" id="formFile" name="image">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Giá</label>
-                                    <input class="form-control" type="number">
+                                    <input class="form-control" type="number" name="price">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Giá giảm</label>
-                                    <input class="form-control" type="number">
+                                    <input class="form-control" type="number" name="sale_price">
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Mô tả</label>
-                                    <textarea id="summernote" rows="6"></textarea>
+                                    <textarea id="summernote" rows="6" name="description"></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Chất liệu</label>
-                                    <textarea id="material"></textarea>
+                                    <textarea id="material" name="material"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <button class="btn btn-primary" id="add_variant">Thêm biến thể</button>
+                                </div>
+
+                                <div id="variant">
+
+                                </div>
+
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Thêm mới</button>
                                 </div>
                             </form>
 
@@ -103,6 +125,47 @@
             //     mode: "htmlmixed",
             //     theme: "monokai"
             // });
-        })
+        });
+    </script>
+
+    <script>
+        var add_variant = document.querySelector('#add_variant');
+        var variant = document.querySelector('#variant');
+        var html = ``;
+        add_variant.addEventListener('click', function(e) {
+            e.preventDefault();
+            html += `
+                <div class="mb-3">
+                    <label class="form-label">Chọn màu</label>
+                    <select name='color_id[]'>
+                        @foreach ($colors as $color)
+                            <option value="{{ $color->id }}">
+                                {{ $color->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Chọn size</label>
+                    <select name='size_id[]'>
+                        @foreach ($sizes as $size)
+                            <option value="{{ $size->id }}">
+                                {{ $size->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Số lượng</label>
+                    <input type="number" value="0" name="quantity[]" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Hình ảnh</label>
+                    <input type="file" name="hinh[]" class="form-control">
+                </div>
+            `;
+
+            variant.innerHTML += html;
+        });
     </script>
 @endsection

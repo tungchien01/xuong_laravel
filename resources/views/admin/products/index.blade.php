@@ -42,26 +42,35 @@
                                             <th>Sale</th>
                                             <th>Category</th>
                                             <th>Brand</th>
-                                            <th></th>
+                                            <th>
+                                                <a href="{{ route('products.create') }}" class="btn btn-primary">Thêm
+                                                    mới</a>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a href="" class="btn btn-primary">Edit</a>
-                                            </td>
-                                        </tr>
-
-
+                                        @foreach ($products as $stt => $product)
+                                            <tr>
+                                                <td>{{ $stt + 1 }}</td>
+                                                <td>{{ $product->code }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>
+                                                    <img src="{{ $product->image }}" width="50" alt="">
+                                                </td>
+                                                <td>{{ $product->price }}</td>
+                                                <td>{{ $product->sale_price }}</td>
+                                                <td>{{ $product->category->name }}</td>
+                                                <td>{{ $product->brand->name }}</td>
+                                                <td class="d-flex">
+                                                    <a href="" class="btn btn-primary mr-1">Edit</a>
+                                                    <form action="" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -77,8 +86,11 @@
                                         </tr>
                                     </tfoot>
                                 </table>
+
+
                             </div>
                             <!-- /.card-body -->
+                            {{ $products->links() }}
                         </div>
                         <!-- /.card -->
                     </div>
