@@ -33,7 +33,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
 
-                            <form action="" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label class="form-label">Code</label>
@@ -134,7 +134,7 @@
         var html = ``;
         add_variant.addEventListener('click', function(e) {
             e.preventDefault();
-            html += `
+            html = `
                 <div class="mb-3">
                     <label class="form-label">Chọn màu</label>
                     <select name='color_id[]'>
