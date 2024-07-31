@@ -62,7 +62,8 @@
                                                 <td>{{ $product->category->name }}</td>
                                                 <td>{{ $product->brand->name }}</td>
                                                 <td class="d-flex">
-                                                    <a href="" class="btn btn-primary mr-1">Edit</a>
+                                                    <a href="{{ route('products.edit', $product) }}"
+                                                        class="btn btn-primary mr-1">Edit</a>
                                                     <form action="" method="post">
                                                         @csrf
                                                         @method('DELETE')

@@ -76,4 +76,68 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('message', 'Thêm dữ liệu thành công');
     }
+
+    //Hiển thị form sửa
+    public function edit(Product $product)
+    {
+        $categories = Category::all();
+        $brands = Brand::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+
+        return view(
+            'admin.products.edit',
+            compact('categories', 'brands', 'colors', 'sizes', 'product')
+        );
+    }
+
+    //Cập nhật
+    public function update(Request $request, Product $product)
+    {
+        $data_product = [
+            'code' => $request['code'],
+            'name' => $request['name'],
+            'slug' => Str::slug($request['name']),
+            'price' => $request['price'],
+            'sale_price' => $request['sale_price'],
+            'description' => $request['description'],
+            'material' => $request['material'],
+            'category_id' => $request['category_id'],
+            'brand_id' => $request['brand_id'],
+        ];
+
+        //Ảnh sản phẩm cũ
+        $data_product['image'] = $product->image;
+        //Nhập ảnh mới nếu có
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images');
+            $data_product['image'] = $path;
+        }
+
+        // $product->update($data_product);
+
+        foreach ($request['color_id'] as $index => $color_id) {
+            $data_variant = [
+                'product_id' => $product->id,
+                'color_id' => $color_id,
+                'size_id' => $request['size_id'][$index],
+                'quantity' => $request['quantity'][$index]
+            ];
+
+            // dd($data_variant);
+            //Update
+            $find_variant = ProductVariant::query()
+                ->where('product_id', $product->id)
+                ->where('color_id', $color_id)
+                ->where('size_id', $request['size_id'][$index])
+                ->first();
+            if ($find_variant) {
+                $find_variant->update($data_variant); //Cập nhật 
+            } else {
+                ProductVariant::query()->create($data_variant);
+            }
+        } //end foreach
+
+        return redirect()->back()->with('message', 'Cập nhật dữ liệu thành công');
+    }
 }
