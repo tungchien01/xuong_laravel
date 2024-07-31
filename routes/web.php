@@ -30,5 +30,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/create', [ProductController::class, 'store'])->name('products.store');
         Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
         Route::put('/edit/{product}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('/delete/{product}', [ProductController::class, 'destroy'])->name('products.delete');
     });
 });

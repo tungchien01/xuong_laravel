@@ -40,6 +40,7 @@
                                             <th>Image</th>
                                             <th>Price</th>
                                             <th>Sale</th>
+                                            <th>Biến thể</th>
                                             <th>Category</th>
                                             <th>Brand</th>
                                             <th>
@@ -59,12 +60,19 @@
                                                 </td>
                                                 <td>{{ $product->price }}</td>
                                                 <td>{{ $product->sale_price }}</td>
+                                                <td>
+                                                    @foreach ($product->variants as $variant)
+                                                        {{ $variant->color->name }},
+                                                        {{ $variant->size->name }},
+                                                        {{ $variant->quantity }} <br>
+                                                    @endforeach
+                                                </td>
                                                 <td>{{ $product->category->name }}</td>
                                                 <td>{{ $product->brand->name }}</td>
                                                 <td class="d-flex">
                                                     <a href="{{ route('products.edit', $product) }}"
                                                         class="btn btn-primary mr-1">Edit</a>
-                                                    <form action="" method="post">
+                                                    <form action="{{ route('products.delete', $product) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger">Delete</button>

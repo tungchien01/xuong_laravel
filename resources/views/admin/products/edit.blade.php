@@ -32,7 +32,11 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-
+                            @if (session('message'))
+                                <div class="alert alert-success">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <form action="{{ route('products.update', $product) }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf

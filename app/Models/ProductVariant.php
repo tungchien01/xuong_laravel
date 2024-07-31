@@ -15,4 +15,13 @@ class ProductVariant extends Model
         'quantity',
         'image',
     ];
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

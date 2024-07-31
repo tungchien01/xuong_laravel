@@ -18,6 +18,7 @@ class Product extends Model
         'sale_price',
         'description',
         'material',
+        'soft_delete',
         'category_id',
         'brand_id',
     ];

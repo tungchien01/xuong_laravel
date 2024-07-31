@@ -16,7 +16,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderByDesc('id')->paginate(10);
+        $products = Product::query()
+            ->where('soft_delete', 0)
+            ->orderByDesc('id')
+            ->paginate(10);
+
         return view(
             'admin.products.index',
             compact('products')
@@ -97,7 +101,7 @@ class ProductController extends Controller
         $data_product = [
             'code' => $request['code'],
             'name' => $request['name'],
-            'slug' => Str::slug($request['name']),
+            // 'slug' => Str::slug($request['name']),
             'price' => $request['price'],
             'sale_price' => $request['sale_price'],
             'description' => $request['description'],
@@ -139,5 +143,12 @@ class ProductController extends Controller
         } //end foreach
 
         return redirect()->back()->with('message', 'Cập nhật dữ liệu thành công');
+    }
+
+    //Xóa sản phẩm
+    public function destroy(Product $product)
+    {
+        $product->update(['soft_delete' => 1]);
+        return redirect()->route('products.index')->with('message', 'Xóa dữ liệu thành công');
     }
 }
