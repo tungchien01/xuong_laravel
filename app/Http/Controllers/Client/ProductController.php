@@ -14,7 +14,7 @@ class ProductController extends Controller
         $product = Product::query()->where('slug', $slug)->firstOrFail();
 
         $variants = $product->variants; //Lấy ra biến thể của sản phẩm
-
+        // dd($variants);
         $colors = []; //Lấy ra chỉ màu sắc mà sản phẩm đó có
         foreach ($variants as $variant) {
             $colors[$variant->color->id] = $variant->color->name;

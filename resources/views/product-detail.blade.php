@@ -103,10 +103,11 @@
                             <p>
                                 {{ $product->material }}
                             </p>
-                            <form action="" method="post">
+                            <form action="{{ route('page.addToCart') }}" method="post">
                                 @csrf
-                                <div class="product__details__option">
-                                    <div class="product__details__option__size">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <div class="product__details__variant">
+                                    <div class="product__details__size">
                                         <span>Size:</span>
                                         @foreach ($sizes as $index => $size)
                                             <label for="size{{ $index }}">{{ $size }}
@@ -115,7 +116,7 @@
                                             </label>
                                         @endforeach
                                     </div>
-                                    <div class="product__details__option__size">
+                                    <div class="product__details__color">
                                         <span>Color:</span>
                                         @foreach ($colors as $index => $color)
                                             <label for="color{{ $index }}">{{ $color }}
@@ -336,4 +337,11 @@
         </div>
     </section>
     <!-- Related Section End -->
+
+
+    @if (session('cartFail'))
+        <script>
+            alert("{{ session('cartFail') }}");
+        </script>
+    @endif
 @endsection
