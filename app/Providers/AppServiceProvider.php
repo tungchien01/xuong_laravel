@@ -22,9 +22,21 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
+
         view()->composer('*', function ($view) {
             $categories = Category::all();
-            $view->with(compact('categories'));
+            $carts = session('cart') ?? [];
+            $total_money = 0;
+            $count = 0;
+            if ($carts) {
+                foreach ($carts as $cart) {
+                    $total_money += ($cart['sale_price'] ?? $cart['price']) * $cart['quantity'];
+                    $count += $cart['quantity'];
+                }
+            }
+
+
+            $view->with(compact('categories', 'count', 'total_money'));
         });
     }
 }

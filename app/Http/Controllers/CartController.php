@@ -10,6 +10,7 @@ class CartController extends Controller
     //thêm sản phẩm vài giỏ hàng
     public function addToCart(Request $request)
     {
+        //Nếu có giỏ hàng thì lưu lại, còn không thì tạo mới
         $cart = session('cart') ?? [];
         // dd($request->all());
         //lấy thông tin hàng hóa
